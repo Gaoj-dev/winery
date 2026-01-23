@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from typing import DefaultDict
 from odoo import models, fields, api
 
 
@@ -8,20 +7,55 @@ class winery(models.Model):
     _name = 'winery.plot'
     _description = 'winery.plot'
     #Identificacion
-    id = fields.Integer(string="ID", required=True)
-    plot_number = fields.Integer(string="Numero de parcela", readonly=True, required=True)#TODO nombre de parcela se debe autogenerar
-    name = fields.String(string="Nombre", required=True)
-    alias = fields.String(string="Alias")
-    cadastral_reference = fields.String(string="Referencia catastral")#TODO posible metodo verificar si es valido
+    id = fields.Integer(string="Numero de parcela", required=True)
+    name = fields.Char(string="Nombre", required=True, readonly=True, compute="_compute_name")
+    alias = fields.Char(string="Alias")
+    cadastral_reference = fields.Char(string="Referencia catastral")#TODO posible metodo verificar si es valido
     #Localizacion
-    country = fields.Many2one( comodel_name="res.country", string="País")#TODO check no se si es res_country o res.country y falta poner el default
-    province = fields.Many2one( comodel_name="res.country.province", string="Provincia") #TODO lo mismo que arriba
-    locality = fields.String(string="Localidad")
+    country_id = fields.Many2one('res.country', string="País", default=68, compute="_onchange_country_id")
+    state_id = fields.Many2one('res.country.state', string="Provincia", default=427)
+    locality = fields.Char(string="Localidad")
     surface_ref = fields.Float(string="Superficie en hectáreas")
     #Datos vitícoras
-    grape_variety = fields.Many2Many(sting="Variedad/es de la uva")
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    grape_variety = fields.Many2Many(string="Variedad/es de la uva")
+    aggregation = fields.Char()
+    zone = fields.Char()
+
+    #Datos geográficos / SIGPAC
+    gps_coordinates = fields.Char(string="Coordenadas GPS")
+    sigpac_info = fields.Char(string="Información geométrica SIGPAC")
+    #Relacion con viticultor
+    winegrower = fields.Many2one(comodel_name="winery.winegrower", string="Viticultor")
+
+    status = fields.Selection(
+        selection=[
+            ('active', 'Activa'),
+            ('inactive', 'Inactiva'),
+            ('suspended', 'Suspendida'),
+        ],
+        string="Estado",
+        default='active'
+    )
+
+    description = fields.Text(string="Descripcion")
+
+@api.depends('plot_number', 'state_id', 'aggregation', 'grape_variety_id')
+def _compute_name(self):
+    for rec in self:
+        parts = [
+            f"Nº {rec.plot_number}" if rec.plot_number else None,
+            rec.state_id.name if rec.state_id else None,
+            rec.aggregation,
+            rec.grape_variety_id,
+        ]
+        rec.name = " - ".join(filter(None, parts))
+
+@api.onchange('country_id')
+def _onchange_country_id(self):
+    if self.state_id and self.state_id.country_id != self.country_id:
+        self.state_id = False
+    return {
+        'domain': {
+            'state_id': [('country_id', '=', self.country_id.id)]
+        }
+    }
