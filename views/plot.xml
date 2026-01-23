@@ -1,0 +1,88 @@
+<odoo>
+  <data>
+
+    <!--      TREE VIEW            -->
+    <record id="winery_plot_tree" model="ir.ui.view">
+        <field name="name">winery.plot.tree</field>
+        <field name="model">winery.plot</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="plot_number"/>
+                <field name="name"/>
+                <field name="alias"/>
+                <field name="country_id"/>
+                <field name="state_id"/>
+                <field name="locality"/>
+                <field name="surface_ref"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--      FORM VIEW            -->
+    <record id="winery_plot_form" model="ir.ui.view">
+        <field name="name">winery.plot.form</field>
+        <field name="model">winery.plot</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <group string="Identificación">
+                        <field name="plot_number"/>
+                        <field name="name" readonly="1"/>
+                        <field name="alias"/>
+                        <field name="cadastral_reference"/>
+                    </group>
+
+                    <group string="Localización">
+                        <field name="country_id"/>
+                        <field name="state_id" domain="[('country_id', '=', country_id)]"/>
+                        <field name="locality"/>
+                        <field name="surface_ref"/>
+                    </group>
+
+                    <group string="Datos vitícolas">
+                        <field name="grape_variety_id"/>
+                        <field name="aggregation"/>
+                        <field name="zone"/>
+                    </group>
+
+                    <group string="Datos SIGPAC">
+                        <field name="gps_coordinates"/>
+                        <field name="sigpac_info"/>
+                    </group>
+
+                    <group string="Viticultor">
+                        <field name="winegrower"/>
+                    </group>
+
+                    <group string="Estado">
+                        <field name="status"/>
+                    </group>
+
+                    <group string="Descripción">
+                        <field name="description"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--      ACTION WINDOW        -->
+    <record id="winery_plot_action" model="ir.actions.act_window">
+        <field name="name">Parcelas</field>
+        <field name="res_model">winery.plot</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                No hay parcelas registradas todavía.
+            </p>
+            <p>
+                Pulsa "Crear" para añadir una nueva parcela.
+            </p>
+        </field>
+    </record>
+
+  </data>
+</odoo>
