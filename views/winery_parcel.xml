@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_winery_parcel_form" model="ir.ui.view">
+        <field name="name">winery.parcel.form</field>
+        <field name="model">winery.parcel</field>
+        <field name="arch" type="xml">
+            <form string="Parcela Vitícola">
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Nombre autogenerado"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identificación y Viticultor">
+                            <field name="code"/>
+                            <field name="cadastral_reference"/>
+                            <field name="winegrower_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Localización">
+                            <field name="country_id" options="{'no_create': True}"/>
+                            <field name="state_id" domain="[('country_id', '=', country_id)]" options="{'no_create': True}"/>
+                            <field name="city"/>
+                            <field name="surface_area"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Datos Vitícolas">
+                            <field name="grape_variety_id" options="{'no_create': True}"/>
+                            <field name="aggregate"/>
+                            <field name="zone"/>
+                        </group>
+                        <group string="Datos Geográficos">
+                            <field name="gps_coordinates"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="SIGPAC">
+                            <field name="sigpac_data" placeholder="Información geométrica..."/>
+                        </page>
+                        <page string="Notas">
+                            <field name="description" placeholder="Descripción libre..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_winery_parcel_tree" model="ir.ui.view">
+        <field name="name">winery.parcel.tree</field>
+        <field name="model">winery.parcel</field>
+        <field name="arch" type="xml">
+            <tree string="Parcelas Vitícolas" decoration-muted="state == 'inactive'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="winegrower_id"/>
+                <field name="grape_variety_id"/>
+                <field name="surface_area" sum="Total Hectáreas"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-danger="state == 'suspended'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_winery_parcel_search" model="ir.ui.view">
+        <field name="name">winery.parcel.search</field>
+        <field name="model">winery.parcel</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Parcela">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="cadastral_reference"/>
+                <field name="winegrower_id"/>
+                <filter string="Activas" name="active_parcels" domain="[('state', '=', 'active')]"/>
+                <filter string="Suspendidas" name="suspended_parcels" domain="[('state', '=', 'suspended')]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Viticultor" name="group_winegrower" context="{'group_by': 'winegrower_id'}"/>
+                    <filter string="Variedad" name="group_variety" context="{'group_by': 'grape_variety_id'}"/>
+                    <filter string="Provincia" name="group_state" context="{'group_by': 'state_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_winery_parcel" model="ir.actions.act_window">
+        <field name="name">Parcelas Vitícolas</field>
+        <field name="res_model">winery.parcel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Crear la primera parcela vitícola
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_winery_root"
+              name="Gestión Bodega"
+              sequence="10"/>
+
+    <menuitem id="menu_winery_parcel"
+              name="Parcelas"
+              parent="menu_winery_root" 
+              action="action_winery_parcel"
+              sequence="10"/>
+
+</odoo>

@@ -27,6 +27,8 @@
         # 'security/ir.model.access.csv',
         'views/menu.xml',
         'views/plot.xml',
+        'views/winery_parcel.xml',
+        'views/winery_winegrower.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode
