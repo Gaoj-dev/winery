@@ -25,7 +25,7 @@ class plot(models.Model):
     gps_coordinates = fields.Char(string="Coordenadas GPS")
     sigpac_info = fields.Char(string="Información geométrica SIGPAC")
     #Relacion con viticultor
-    winegrower = fields.Many2one(comodel_name="winery.winegrower", string="Viticultor")
+    winegrower = fields.Many2one(comodel_name="winery.winery_winegrower", string="Viticultor")#TODO tal vez hay que cambiar el nombre
 
     status = fields.Selection(
         selection=[
