@@ -3,8 +3,8 @@
 from odoo import models, fields, api
 
 
-class uva(models.Model):
-    _name = 'bodega.uva'
+class grape_variety(models.Model):
+    _name = 'winery.grape_variety'
     _description = 'Tipo de uva'
 
     name = fields.Char(string="Nombre", required=True)

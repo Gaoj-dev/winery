@@ -26,38 +26,46 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-
-                    <group string="Identificación">
-                        <field name="plot_number"/>
-                        <field name="name" readonly="1"/>
-                        <field name="alias"/>
-                        <field name="cadastral_reference"/>
+                    <group name="group_top" string="Identificacion">
+                        <group string="Identificación">
+                            <field name="plot_number"/>
+                            <field name="name" readonly="1"/>
+                            <field name="alias"/>
+                            <field name="cadastral_reference"/>
+                        </group>
                     </group>
+                    
+                    <group  string="Datos">
+                        <group name="group_left">
+                            <group name="group_top" string="Localización">
+                                <field name="country_id"/>
+                                <field name="state_id" domain="[('country_id', '=', country_id)]"/>
+                                <field name="locality"/>
+                                <field name="surface_ref"/>
+                            </group>
 
-                    <group string="Localización">
-                        <field name="country_id"/>
-                        <field name="state_id" domain="[('country_id', '=', country_id)]"/>
-                        <field name="locality"/>
-                        <field name="surface_ref"/>
-                    </group>
+                            <group string="Datos vitícolas">
+                                <field name="grape_variety_id"/>
+                                <field name="aggregation"/>
+                                <field name="zone"/>
+                            </group>
 
-                    <group string="Datos vitícolas">
-                        <field name="grape_variety_id"/>
-                        <field name="aggregation"/>
-                        <field name="zone"/>
-                    </group>
+                            <group string="Estado">
+                                <field name="status"/>
+                            </group>
+                        </group>
 
-                    <group string="Datos SIGPAC">
-                        <field name="gps_coordinates"/>
-                        <field name="sigpac_info"/>
-                    </group>
+                        
+                        <group name="group_right">
+                            <group string="Datos SIGPAC">
+                                <field name="gps_coordinates"/>
+                                <field name="sigpac_info"/>
+                            </group>
 
-                    <group string="Viticultor">
-                        <field name="winegrower"/>
-                    </group>
-
-                    <group string="Estado">
-                        <field name="status"/>
+                            <group string="Viticultor">
+                                <field name="winegrower"/>
+                            </group>
+                        </group>
                     </group>
 
                     <group string="Descripción">
