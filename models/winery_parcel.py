@@ -1,94 +1,77 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo import models, fields, api, _
 
+class WineryParcel(models.Model):
+    _name = 'winery.parcel'
+    _description = 'Parcela Vitícola'
+    _rec_name = 'name'
 
-
-class WineryWinegrower(models.Model):
-    _name = "winery.winegrower"
-    _description = "Winegrower"
-    _rec_name = "name"
-
-    # --------------------
-    # General data
-    # --------------------
+    code = fields.Char(string='Número de Parcela', required=True)
+    
+    # Nombre calculado: "Nº de parcela – Provincia – Agregado – Variedad de uva"
     name = fields.Char(
-        string="Name / Business name",
-        required=True
+        string='Nombre de la Parcela', 
+        compute='_compute_name', 
+        store=True, 
+        readonly=True
     )
-    vat = fields.Char(
-        string="VAT / Tax ID"
-    )
-    code = fields.Char(
-        string="Internal Code",
-        required=True,
-        copy=False
-    )
+    
+    cadastral_reference = fields.Char(string='Referencia Catastral')
 
-    # --------------------
-    # Address
-    # --------------------
-    street = fields.Char(string="Street")
-    city = fields.Char(string="City")
-    zip = fields.Char(string="ZIP")
-
+    # --- 2. Localización ---
     country_id = fields.Many2one(
-        "res.country",
-        string="Country",
-        default=lambda self: self.env.company.country_id.id,
-        required=True
+        'res.country', 
+        string='País', 
+        default=lambda self: self.env.company.country_id
     )
-
+    
     state_id = fields.Many2one(
-        "res.country.state",
-        string="State / Province",
+        'res.country.state', 
+        string='Provincia', 
         domain="[('country_id', '=', country_id)]"
     )
+    
+    city = fields.Char(string='Localidad')
+    surface_area = fields.Float(string='Superficie (Ha)', digits=(16, 4))
 
-    # --------------------
-    # Contact
-    # --------------------
-    phone = fields.Char(string="Phone")
-    email = fields.Char(string="Email")
+    # --- 3. Datos Vitícolas ---
+    grape_variety_id = fields.Many2one('winery.grape.variety', string='Variedad de Uva')
+    
+    aggregate = fields.Char(string='Agregado')
+    zone = fields.Char(string='Zona')
 
-    # --------------------
-    # Other
-    # --------------------
-    description = fields.Text(string="Notes")
+    # --- 4. Relación con Viticultor ---
+    winegrower_id = fields.Many2one('winery.winegrower', string='Viticultor', required=True)
 
-    # --------------------
-    # SQL constraints
-    # --------------------
-    _sql_constraints = [
-        (
-            "winery_winegrower_code_unique",
-            "unique(code)",
-            "Internal Code must be unique."
-        )
-    ]
+    # --- 5. Datos Geográficos / SIGPAC ---
+    gps_coordinates = fields.Char(string='Coordenadas GPS')
+    sigpac_data = fields.Text(string='Información Geométrica SIGPAC')
 
-    # --------------------
-    # Onchange
-    # --------------------
-    @api.onchange("country_id")
+    # --- 6. Estado y Otros ---
+    state = fields.Selection([
+        ('active', 'Activa'),
+        ('inactive', 'Inactiva'),
+        ('suspended', 'Suspendida')
+    ], string='Estado', default='active', required=True)
+
+    description = fields.Text(string='Descripción Libre')
+
+    # --- Lógica de Negocio ---
+
+    @api.depends('code', 'state_id', 'aggregate', 'grape_variety_id')
+    def _compute_name(self):
+        for record in self:
+            p_code = record.code or 'Sin Nº'
+
+            p_state = record.state_id.name if record.state_id else 'Sin Prov.'
+            p_agg = record.aggregate or 'Sin Agr.'
+
+            p_var = record.grape_variety_id.name if record.grape_variety_id else 'Sin Var.'
+            
+            record.name = f"{p_code} - {p_state} - {p_agg} - {p_var}"
+
+    @api.onchange('country_id')
     def _onchange_country_id(self):
-        if self.state_id and self.country_id and self.state_id.country_id != self.country_id:
+        """ Limpia la provincia si el país cambia """
+        if self.country_id and self.state_id and self.state_id.country_id != self.country_id:
             self.state_id = False
-        return {
-            "domain": {
-                "state_id": [
-                    ("country_id", "=", self.country_id.id if self.country_id else False)
-                ]
-            }
-        }
-
-    # --------------------
-    # Validations
-    # --------------------
-    @api.constrains("email")
-    def _check_email_format(self):
-        for rec in self:
-            if rec.email and "@" not in rec.email:
-                raise ValidationError(
-                    _("Please provide a valid email address.")
-                )
