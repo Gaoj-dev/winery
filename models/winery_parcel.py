@@ -1,19 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
 
-class WineryGrapeVariety(models.Model):
-    _name = 'winery.grape.variety'
-    _description = 'Variedad de Uva (Placeholder)'
-
-    name = fields.Char(string='Nombre', required=True)
-
-class WineryWinegrower(models.Model):
-    _name = 'winery.winegrower'
-    _description = 'Viticultor (Placeholder)'
-
-    name = fields.Char(string='Nombre', required=True)
-    code = fields.Char(string='Código')
-
 class WineryParcel(models.Model):
     _name = 'winery.parcel'
     _description = 'Parcela Vitícola'
