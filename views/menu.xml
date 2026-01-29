@@ -3,13 +3,13 @@
         <menuitem id="menu_winery_root"
                 name="Winery"
                 sequence="1"/>
-
+                
                 <menuitem id="menu_winery_plot"
                         name="Parcelas"
                         parent="menu_winery_root"
                         sequence="1"
                         action="winery_plot_action"/>
-                        
+                     
                 <menuitem id="menu_winery_parcel"
                         name="Parcel"
                         parent="menu_winery_root"
@@ -26,6 +26,6 @@
                         name="Tipo uvas"
                         parent="menu_winery_root"
                         sequence="4"
-                        action="action_winery_winegrower"/>
+                        action="action_winery_grape_variety"/>
     </data>
 </odoo>

@@ -2,21 +2,6 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
-
-class WineryPlot(models.Model):
-    _name = "winery.plot"
-    _description = "Vineyard Plot"
-
-    name = fields.Char(string="Plot Name", required=True)
-
-    surface_ha = fields.Float(string="Surface (ha)", default=0.0)
-    
-    # Relación inversa necesaria para el One2many del viticultor
-    winegrower_id = fields.Many2one(
-        comodel_name="winery.winegrower", 
-        string="Winegrower"
-    )
-
 # ---------------------------------------------------------
 
 class WineryWinegrower(models.Model):
@@ -75,7 +60,7 @@ class WineryWinegrower(models.Model):
     # 1. Relación One2many con 'Plot' (Parcelas)
     plot_ids = fields.One2many(
         comodel_name="winery.plot",
-        inverse_name="winegrower_id",
+        inverse_name="winegrower",
         string="Vineyard Plots"
     )
 
@@ -114,7 +99,7 @@ class WineryWinegrower(models.Model):
             elif 5 <= total_ha < 20:
                 record.winegrower_type = 'medium'
             else:
-                record.winegrower_type = 'great'
+                record.winegrower_type = 'large'
 
     # --------------------
     # SQL constraints

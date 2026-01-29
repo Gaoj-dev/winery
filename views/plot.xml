@@ -13,7 +13,7 @@
                 <field name="country_id"/>
                 <field name="state_id"/>
                 <field name="locality"/>
-                <field name="surface_ref"/>
+                <field name="surface_ha"/>
                 <field name="status"/>
             </tree>
         </field>
@@ -41,7 +41,7 @@
                                 <field name="country_id"/>
                                 <field name="state_id" domain="[('country_id', '=', country_id)]"/>
                                 <field name="locality"/>
-                                <field name="surface_ref"/>
+                                <field name="surface_ha"/>
                             </group>
 
                             <group string="Datos vitícolas">

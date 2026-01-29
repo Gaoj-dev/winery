@@ -41,7 +41,7 @@ class WineryParcel(models.Model):
     zone = fields.Char(string='Zona')
 
     # --- 4. Relación con Viticultor ---
-    winegrower_id = fields.Many2one('winery.winegrower', string='Viticultor', required=True)
+    winegrower = fields.Many2one('winery.winegrower', string='Viticultor', required=True)
 
     # --- 5. Datos Geográficos / SIGPAC ---
     gps_coordinates = fields.Char(string='Coordenadas GPS')

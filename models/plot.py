@@ -15,9 +15,9 @@ class WineryPlot(models.Model):
     country_id = fields.Many2one('res.country', string="País", default=68)
     state_id = fields.Many2one('res.country.state', string="Provincia")
     locality = fields.Char(string="Localidad")
-    surface_ref = fields.Float(string="Superficie en hectáreas")
+    surface_ha = fields.Float(string="Superficie en hectáreas")
     #Datos vitícolas
-    grape_variety_id = fields.Many2one("winery.grape_variety", string="Variedad de la uva")#Fallo de odoo
+    grape_variety_id = fields.Many2one("winery.grape_variety", string="Variedad de la uva")
     aggregation = fields.Char()
     zone = fields.Char()
 
@@ -25,8 +25,7 @@ class WineryPlot(models.Model):
     gps_coordinates = fields.Char(string="Coordenadas GPS")
     sigpac_info = fields.Char(string="Información geométrica SIGPAC")
     #Relacion con viticultor
-    winegrower = fields.Many2one(comodel_name="winery.winegrower", string="Viticultor")#TODO tal vez hay que cambiar el nombre#Fallo de odoo
-
+    winegrower = fields.Many2one(comodel_name="winery.winegrower", string="Viticultor")
     status = fields.Selection(
         selection=[
             ('active', 'Activa'),
