@@ -3,6 +3,21 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
+class WineryPlot(models.Model):
+    _name = "winery.plot"
+    _description = "Vineyard Plot"
+
+    name = fields.Char(string="Plot Name", required=True)
+
+    surface_ha = fields.Float(string="Surface (ha)", default=0.0)
+    
+    # Relación inversa necesaria para el One2many del viticultor
+    winegrower_id = fields.Many2one(
+        comodel_name="winery.winegrower", 
+        string="Winegrower"
+    )
+
+# ---------------------------------------------------------
 
 class WineryWinegrower(models.Model):
     _name = "winery.winegrower"
@@ -55,6 +70,51 @@ class WineryWinegrower(models.Model):
     # Other
     # --------------------
     description = fields.Text(string="Notes")
+
+
+    # 1. Relación One2many con 'Plot' (Parcelas)
+    plot_ids = fields.One2many(
+        comodel_name="winery.plot",
+        inverse_name="winegrower_id",
+        string="Vineyard Plots"
+    )
+
+    # 2. Superficie total calculada (Suma de surface_ha)
+    total_surface_ha = fields.Float(
+        string="Total Surface (ha)",
+        compute="_compute_classification_and_surface",
+        store=True
+    )
+
+    # 3. Clasificación automática (Pequeño, Mediano, Grande)
+    winegrower_type = fields.Selection(
+        selection=[
+            ('small', 'Pequeño Viticultor (< 5 ha)'),
+            ('medium', 'Mediano Viticultor (5 - 20 ha)'),
+            ('large', 'Gran Viticultor (>= 20 ha)')
+        ],
+        string="Classification",
+        compute="_compute_classification_and_surface",
+        store=True
+    )
+
+    # --------------------
+    # Compute Methods
+    # --------------------
+    @api.depends('plot_ids', 'plot_ids.surface_ha')
+    def _compute_classification_and_surface(self):
+        for record in self:
+            # Sumamos el campo 'surface_ha' de los plots relacionados
+            total_ha = sum(plot.surface_ha for plot in record.plot_ids)
+            record.total_surface_ha = total_ha
+
+            # Lógica de clasificación
+            if total_ha < 5:
+                record.winegrower_type = 'small'
+            elif 5 <= total_ha < 20:
+                record.winegrower_type = 'medium'
+            else:
+                record.winegrower_type = 'great'
 
     # --------------------
     # SQL constraints
