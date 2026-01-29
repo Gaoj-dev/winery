@@ -35,7 +35,7 @@ class WineryParcel(models.Model):
     surface_area = fields.Float(string='Superficie (Ha)', digits=(16, 4))
 
     # --- 3. Datos Vitícolas ---
-    grape_variety_id = fields.Many2one('winery.grape.variety', string='Variedad de Uva')
+    grape_variety_id = fields.Many2one('winery.grape_variety', string='Variedad de Uva')
     
     aggregate = fields.Char(string='Agregado')
     zone = fields.Char(string='Zona')

@@ -27,6 +27,7 @@
         # 'security/ir.model.access.csv',
         'views/plot.xml',
         'views/winery_winegrower.xml',
+        'views/winery_parcel.xml',
         'views/templates.xml',
         'views/menu.xml',
     ],

@@ -27,7 +27,7 @@
             <form>
                 <sheet>
                     <group name="group_top" string="Identificacion">
-                        <group string="Identificación">
+                        <group>
                             <field name="plot_number"/>
                             <field name="name" readonly="1"/>
                             <field name="alias"/>

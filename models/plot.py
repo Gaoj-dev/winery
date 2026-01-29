@@ -8,7 +8,7 @@ class WineryPlot(models.Model):
     _description = 'Parcela'
     #Identificacion
     plot_number = fields.Integer(string="Numero de parcela", required=True)
-    name = fields.Char(string="Nombre", required=True, readonly=True)#, compute="_compute_name")
+    name = fields.Char(string="Nombre", store=True, readonly=True, compute="_compute_name")
     alias = fields.Char(string="Alias")
     cadastral_reference = fields.Char(string="Referencia catastral")#TODO posible metodo verificar si es valido
     #Localizacion
