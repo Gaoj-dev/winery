@@ -1,75 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Tree view -->
     <record id="view_winery_winegrower_tree" model="ir.ui.view">
         <field name="name">winery.winegrower.tree</field>
         <field name="model">winery.winegrower</field>
         <field name="arch" type="xml">
-            <tree string="Winegrowers">
+            <tree string="Winegrowers" decoration-bf="winegrower_type == 'large'">
+                
                 <field name="code"/>
+                
                 <field name="name"/>
-                <field name="vat"/>
-                <field name="phone"/>
-                <field name="email"/>
-                <field name="country_id"/>
-                <field name="state_id"/>
+                
                 <field name="city"/>
+                
+                <field name="phone"/>
+                
+                <field name="total_surface_ha" sum="Total Surface"/>
+                
+                <field name="winegrower_type" 
+                       widget="badge" 
+                       decoration-success="winegrower_type == 'large'"
+                       decoration-warning="winegrower_type == 'medium'"
+                       decoration-info="winegrower_type == 'small'"/>
             </tree>
         </field>
     </record>
 
-    <!-- Form view -->
     <record id="view_winery_winegrower_form" model="ir.ui.view">
         <field name="name">winery.winegrower.form</field>
         <field name="model">winery.winegrower</field>
         <field name="arch" type="xml">
             <form string="Winegrower">
                 <sheet>
-
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
                         <h1>
                             <field name="name"/>
                         </h1>
+                        <h3>
+                            <field name="code" placeholder="Internal Code"/>
+                        </h3>
                     </div>
 
                     <group>
-                        <group string="General">
-                            <field name="code"/>
+                        <group string="General &amp; Contact">
                             <field name="vat"/>
-                        </group>
-                        <group string="Contact">
                             <field name="phone"/>
                             <field name="email"/>
                         </group>
+                        <group string="Address">
+                            <field name="country_id"/>
+                            <field name="state_id"/>
+                            <field name="street"/>
+                            <field name="city"/>
+                            <field name="zip"/>
+                        </group>
                     </group>
 
-                    <group string="Address">
-                        <field name="street"/>
-                        <field name="city"/>
-                        <field name="zip"/>
-                        <field name="country_id"/>
-                        <field name="state_id"/>
+                    <group string="Classification Data">
+                        <group>
+                            <field name="total_surface_ha"/>
+                            <field name="winegrower_type" widget="radio"/> 
+                        </group>
                     </group>
 
-                    <group string="Notes">
-                        <field name="description"/>
-                    </group>
+                    <notebook>
+                        <page string="Vineyard Parcels (Plots)">
+                            <field name="plot_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="surface_ha" sum="Total Area"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Notes">
+                            <field name="description" placeholder="Add notes here..."/>
+                        </page>
+                    </notebook>
 
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Action -->
     <record id="action_winery_winegrower" model="ir.actions.act_window">
         <field name="name">Winegrowers</field>
         <field name="res_model">winery.winegrower</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <!-- Menu -->
     <menuitem id="menu_winery_root"
               name="Winery"
               sequence="10"/>
