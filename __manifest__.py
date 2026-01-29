@@ -29,6 +29,7 @@
         'views/winery_winegrower.xml',
         'views/winery_parcel.xml',
         'views/templates.xml',
+        'views/grape_variety.xml',
         'views/menu.xml',
     ],
     # only loaded in demonstration mode

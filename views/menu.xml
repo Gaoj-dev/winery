@@ -1,19 +1,31 @@
 <odoo>
     <data>
         <menuitem id="menu_winery_root"
-                  name="Winery"
-                  sequence="1"/>
+                name="Winery"
+                sequence="1"/>
 
-            <menuitem id="menu_winery_plot"
-                    name="Parcelas"
-                    parent="menu_winery_root"
-                    sequence="1"
-                    action="winery_plot_action"/>
-                    
-            <menuitem id="menu_winery_parcel"
-                    name="Parcel"
-                    parent="menu_winery_root"
-                    sequence="2"
-                    action="action_winery_parcel"/>
+                <menuitem id="menu_winery_plot"
+                        name="Parcelas"
+                        parent="menu_winery_root"
+                        sequence="1"
+                        action="winery_plot_action"/>
+                        
+                <menuitem id="menu_winery_parcel"
+                        name="Parcel"
+                        parent="menu_winery_root"
+                        sequence="2"
+                        action="action_winery_parcel"/>
+
+                <menuitem id="menu_winery_winegrower"
+                        name="Viticultor"
+                        parent="menu_winery_root"
+                        sequence="3"
+                        action="action_winery_winegrower"/>
+
+                <menuitem id="menu_winery_grape_variety"
+                        name="Tipo uvas"
+                        parent="menu_winery_root"
+                        sequence="4"
+                        action="action_winery_winegrower"/>
     </data>
 </odoo>

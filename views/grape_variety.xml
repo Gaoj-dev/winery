@@ -1,0 +1,57 @@
+<odoo>
+  <data>
+    <record id="winery_grape_variety_tree" model="ir.ui.view">
+        <field name="name">winery.grape_variety.tree</field>
+        <field name="model">winery.grape_variety</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="color"/>
+                <field name="origin_region_id"/>
+                <field name="is_seedless" />
+                <field name="acidity_level" />
+                <field name="notes" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="winery_grape_variety_form" model="ir.ui.view">
+        <field name="name">winery.grape_variety.form</field>
+        <field name="model">winery.grape_variety</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left" string="Nueva uva">
+                            <field name="name"/>
+                            <field name="origin_region_id" />
+                            <field name="color"/>
+                            <field name="notes" />
+                        </group>
+                        <group name="group_right" string="">
+                            <field name="is_seedless"/>
+                            <field name="acidity_level" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_winery_grape_variety">
+        <field name="name">Uva</field>
+        <field name="res_model">winery.grape_variety</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Uva cuando no tengo nada. 
+            </p>
+            <p>
+                Click 'Crear' para añadir nuevos elementos.
+            </p>
+        </field>
+    </record>
+
+
+  </data>
+</odoo>
