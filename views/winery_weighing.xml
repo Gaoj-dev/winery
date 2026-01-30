@@ -11,10 +11,10 @@
                         </div>
                         <group>
                             <group string="Datos del Viticultor">
-                                <field name="winegrower_id"/>
+                                <field name="winegrower"/>
                                 <field name="winegrower_code"/>
                                 <field name="grape_variety_id" options="{'no_create': True}"/>
-                                <field name="parcel_ids" widget="many2many_tags" 
+                                <field name="plot_ids" widget="many2many_tags" 
                                        options="{'no_create': True}"/>
                             </group>
                             <group string="Detalles de Entrada">
@@ -46,7 +46,7 @@
             <field name="arch" type="xml">
                 <tree string="Listado de Pesadas">
                     <field name="name" string="Ref"/>
-                    <field name="winegrower_id"/>
+                    <field name="winegrower"/>
                     <field name="grape_variety_id"/>
                     <field name="date"/>
                     <field name="net_weight" sum="Total Kilos"/>

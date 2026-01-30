@@ -27,5 +27,11 @@
                         parent="menu_winery_root"
                         sequence="4"
                         action="action_winery_grape_variety"/>
+
+                <menuitem id="menu_winery_weighing"
+                        name="Pesadas"
+                        parent="menu_winery_root"
+                        sequence="5"
+                        action="action_winery_weighing"/>
     </data>
 </odoo>
