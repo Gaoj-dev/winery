@@ -16,7 +16,7 @@ class WineryWeighing(models.Model):
     grape_variety_id = fields.Many2one('winery.grape_variety', string='Variedad de Uva')
 
     plot_ids = fields.Many2many(
-        'winery.parcel',
+        'winery.plot',
         string='Parcelas de Origen',
         domain="[('winegrower', '=', winegrower)]"
     )

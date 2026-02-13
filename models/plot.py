@@ -5,7 +5,7 @@ from odoo import models, fields, api
 
 class WineryPlot(models.Model):
     _name = 'winery.plot'
-    _description = 'Parcela'
+    _description = 'Parcela Vitícola'
     #Identificacion
     plot_number = fields.Integer(string="Numero de parcela", required=True)
     name = fields.Char(string="Nombre", store=True, readonly=True, compute="_compute_name")
@@ -18,7 +18,7 @@ class WineryPlot(models.Model):
     surface_ha = fields.Float(string="Superficie en hectáreas")
     #Datos vitícolas
     grape_variety_id = fields.Many2one("winery.grape_variety", string="Variedad de la uva")
-    aggregation = fields.Char()
+    aggregation = fields.Char(string='Agregado')
     zone = fields.Char()
 
     #Datos geográficos / SIGPAC
@@ -40,14 +40,23 @@ class WineryPlot(models.Model):
 
     @api.depends('plot_number', 'state_id', 'aggregation', 'grape_variety_id')
     def _compute_name(self):
-        for rec in self:
-            parts = [
-                f"Nº {rec.plot_number}" if rec.plot_number else None,
-                rec.state_id.name if rec.state_id else None,
-                rec.aggregation,
-                rec.grape_variety_id.name if rec.grape_variety_id else None,
-            ]
-            rec.name = " - ".join(filter(None, parts))
+        for record in self:
+            p_code = f"Nº {record.plot_number}" if record.plot_number else 'Sin Nº'
+            p_state = record.state_id.name if record.state_id else 'Sin Prov.'
+            p_agg = record.aggregation or 'Sin Agr.'
+            p_var = record.grape_variety_id.name if record.grape_variety_id else 'Sin Var.'
+            
+            record.name = f"{p_code} - {p_state} - {p_agg} - {p_var}"
+
+    #def _compute_name(self):
+    #    for rec in self:
+    #        parts = [
+    #            f"Nº {rec.plot_number}" if rec.plot_number else None,
+    #            rec.state_id.name if rec.state_id else None,
+    #            rec.aggregation,
+    #            rec.grape_variety_id.name if rec.grape_variety_id else None,
+    #        ]
+    #        rec.name = " - ".join(filter(None, parts))
 
 
     @api.onchange('country_id')

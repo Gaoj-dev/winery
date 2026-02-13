@@ -8,13 +8,7 @@
                         name="Parcelas"
                         parent="menu_winery_root"
                         sequence="1"
-                        action="winery_plot_action"/>
-                     
-                <menuitem id="menu_winery_parcel"
-                        name="Parcel"
-                        parent="menu_winery_root"
-                        sequence="2"
-                        action="action_winery_parcel"/>
+                        action="action_winery_plot"/>
 
                 <menuitem id="menu_winery_winegrower"
                         name="Viticultor"

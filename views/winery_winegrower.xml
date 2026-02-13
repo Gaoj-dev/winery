@@ -5,19 +5,20 @@
         <field name="name">winery.winegrower.tree</field>
         <field name="model">winery.winegrower</field>
         <field name="arch" type="xml">
-            <tree string="Winegrowers" decoration-bf="winegrower_type == 'large'">
+            <tree string="Viticultores" decoration-bf="winegrower_type == 'large'">
                 
-                <field name="code"/>
+                <field name="code" string="Código"/>
                 
-                <field name="name"/>
+                <field name="name" string="Nombre"/>
                 
-                <field name="city"/>
+                <field name="city" string="Ciudad"/>
                 
-                <field name="phone"/>
+                <field name="phone" string="Teléfono"/>
                 
-                <field name="total_surface_ha" sum="Total Surface"/>
+                <field name="total_surface_ha" string="Superficie Total (ha)" sum="Superficie Total"/>
                 
                 <field name="winegrower_type" 
+                       string="Tipo de Viticultor"
                        widget="badge" 
                        decoration-success="winegrower_type == 'large'"
                        decoration-warning="winegrower_type == 'medium'"
@@ -30,52 +31,52 @@
         <field name="name">winery.winegrower.form</field>
         <field name="model">winery.winegrower</field>
         <field name="arch" type="xml">
-            <form string="Winegrower">
+            <form string="Viticultor">
                 <sheet>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
                         <h1>
-                            <field name="name"/>
+                            <field name="name" string="Nombre"/>
                         </h1>
                         <h3>
-                            <field name="code" placeholder="Internal Code"/>
+                            <field name="code" string="Código" placeholder="Código Interno"/>
                         </h3>
                     </div>
 
                     <group>
-                        <group string="General &amp; Contact">
-                            <field name="vat"/>
-                            <field name="phone"/>
-                            <field name="email"/>
+                        <group string="General y Contacto">
+                            <field name="vat" string="NIF"/>
+                            <field name="phone" string="Teléfono"/>
+                            <field name="email" string="Correo Electrónico"/>
                         </group>
-                        <group string="Address">
-                            <field name="country_id"/>
-                            <field name="state_id"/>
-                            <field name="street"/>
-                            <field name="city"/>
-                            <field name="zip"/>
+                        <group string="Dirección">
+                            <field name="country_id" string="País"/>
+                            <field name="state_id" string="Provincia"/>
+                            <field name="street" string="Calle"/>
+                            <field name="city" string="Ciudad"/>
+                            <field name="zip" string="Código Postal"/>
                         </group>
                     </group>
 
-                    <group string="Classification Data">
+                    <group string="Datos de Clasificación">
                         <group>
-                            <field name="total_surface_ha"/>
-                            <field name="winegrower_type" widget="radio"/> 
+                            <field name="total_surface_ha" string="Superficie Total (ha)"/>
+                            <field name="winegrower_type" string="Tipo de Viticultor" widget="label"/>
                         </group>
                     </group>
 
                     <notebook>
-                        <page string="Vineyard Parcels (Plots)">
-                            <field name="plot_ids">
+                        <page string="Parcelas del Viñedo">
+                            <field name="plot_ids" string="Parcelas">
                                 <tree editable="bottom">
-                                    <field name="name"/>
-                                    <field name="surface_ha" sum="Total Area"/>
+                                    <field name="name" string="Nombre"/>
+                                    <field name="surface_ha" string="Superficie (ha)" sum="Superficie Total"/>
                                 </tree>
                             </field>
                         </page>
 
-                        <page string="Notes">
-                            <field name="description" placeholder="Add notes here..."/>
+                        <page string="Notas">
+                            <field name="description" string="Descripción" placeholder="Añadir notas aquí..."/>
                         </page>
                     </notebook>
 
@@ -85,17 +86,17 @@
     </record>
 
     <record id="action_winery_winegrower" model="ir.actions.act_window">
-        <field name="name">Winegrowers</field>
+        <field name="name">Viticultores</field>
         <field name="res_model">winery.winegrower</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem id="menu_winery_root"
-              name="Winery"
+              name="Bodega"
               sequence="10"/>
 
     <menuitem id="menu_winery_winegrower"
-              name="Winegrowers"
+              name="Viticultores"
               parent="menu_winery_root"
               action="action_winery_winegrower"
               sequence="10"/>
