@@ -3,29 +3,63 @@
         <menuitem id="menu_winery_root"
                 name="Winery"
                 sequence="1"/>
-                
-                <menuitem id="menu_winery_plot"
-                        name="Parcelas"
-                        parent="menu_winery_root"
-                        sequence="1"
-                        action="action_winery_plot"/>
-
-                <menuitem id="menu_winery_winegrower"
-                        name="Viticultor"
-                        parent="menu_winery_root"
-                        sequence="3"
-                        action="action_winery_winegrower"/>
-
-                <menuitem id="menu_winery_grape_variety"
-                        name="Tipo uvas"
-                        parent="menu_winery_root"
-                        sequence="4"
-                        action="action_winery_grape_variety"/>
 
                 <menuitem id="menu_winery_weighing"
                         name="Pesadas"
                         parent="menu_winery_root"
-                        sequence="5"
+                        sequence="1"
                         action="action_winery_weighing"/>
+
+                <menuitem
+                        id="menu_viticultor"
+                        name="Viticultores"
+                        parent="menu_winery_root"
+                        sequence="2"/>
+
+
+                        <menuitem id="menu_winery_winegrower"
+                                name="Viticultor"
+                                parent="menu_viticultor"
+                                sequence="1"
+                                action="action_winery_winegrower"/>
+                        
+                        <menuitem id="menu_winery_plot"
+                                name="Parcelas"
+                                parent="menu_viticultor"
+                                sequence="2"
+                                action="action_winery_plot"/>
+
+                <menuitem
+                        id="menu_almacenaje"
+                        name="Almacenaje"
+                        parent="menu_winery_root"
+                        sequence="3"/>
+
+                        <menuitem id="menu_winery_tank_type" 
+                                name="Tipos de Depósito" 
+                                parent="menu_almacenaje"
+                                action="action_winery_tank_type" 
+                                sequence="2"/>
+
+                        <menuitem id="menu_winery_tank" 
+                                name="Depósitos" 
+                                parent="menu_almacenaje"
+                                action="action_winery_tank" 
+                                sequence="1"/>
+
+                
+                <menuitem
+                        id="menu_configuracion"
+                        name="Configuración"
+                        parent="menu_winery_root"
+                        sequence="4"/>
+                
+
+                        <menuitem id="menu_winery_grape_variety"
+                                name="Tipo uvas"
+                                parent="menu_configuracion"
+                                sequence="1"
+                                action="action_winery_grape_variety"/>
+                
     </data>
 </odoo>

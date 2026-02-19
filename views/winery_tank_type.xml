@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_winery_tank_type_tree" model="ir.ui.view">
+        <field name="name">winery.tank_type.tree</field>
+        <field name="model">winery.tank_type</field>
+        <field name="arch" type="xml">
+            <tree string="Tipos de Depósito">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="material"/>
+                <field name="default_capacity"/>
+                <field name="default_tolerance"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_winery_tank_type_form" model="ir.ui.view">
+        <field name="name">winery.tank_type.form</field>
+        <field name="model">winery.tank_type</field>
+        <field name="arch" type="xml">
+            <form string='Tipo de deposito'>
+                <sheet>
+                    <group string='Datos generales'>
+                        <field name='name'/>
+                        <field name='code'/>
+                    </group>
+                    <group string='Datos técnicos'>
+                        <field name='material'/>
+                        <field name='default_capacity'/>
+                        <field name='default_tolerance'/>    
+                    </group>
+                    <separator string="Estado"/>
+                    <field name="active"/>
+                    <label for="active" string="Activo"/>
+                    <separator string="Descripción u Observaciones"/>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_winery_tank_type" model="ir.actions.act_window">
+        <field name="name">Tipos de Depósito</field>
+        <field name="res_model">winery.tank_type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    
+
+</odoo>

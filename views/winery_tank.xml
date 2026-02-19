@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<!-- =========================
+VISTA TREE (LISTA)
+========================= -->
+<record id="view_winery_tank_tree" model="ir.ui.view">
+<field name="name">winery.tank.tree</field>
+<field name="model">winery.tank</field>
+<field name="arch" type="xml">
+<tree>
+<field name="name"/>
+<field name="code"/>
+<field name="winery_tank_type_id"/>
+<field name="state"/>
+<field name="capacity_nominal"/>
+<field name="capacity_max"/>
+<field name="current_liters"/>
+<field name="fill_percentage"/>
+</tree>
+</field>
+</record>
+
+<!-- =========================
+VISTA FORM (FICHA)
+========================= -->
+<record id="view_winery_tank_form" model="ir.ui.view">
+<field name="name">winery.tank.form</field>
+<field name="model">winery.tank</field>
+<field name="arch" type="xml">
+<form>
+<header>
+<field name="state" widget="statusbar"/>
+</header>
+
+<sheet>
+
+<group>
+<group string="Identificación">
+<field name="name"/>
+<field name="code"/>
+<field name="winery_tank_type_id"/>
+<field name="active" invisible="1"/>
+</group>
+
+<group string="Capacidades">
+<field name="capacity_nominal"/>
+<field name="tolerance"/>
+<field name="capacity_max" readonly="1"/>
+<field name="current_liters"/>
+<field name="fill_percentage" readonly="1"/>
+</group>
+</group>
+
+<group string="Observaciones">
+<field name="description" placeholder="Notas adicionales..."/>
+</group>
+
+</sheet>
+</form>
+</field>
+</record>
+
+<!-- =========================
+ACTION
+========================= -->
+<record id="action_winery_tank" model="ir.actions.act_window">
+<field name="name">Depósitos</field>
+<field name="res_model">winery.tank</field>
+<field name="view_mode">tree,form</field>
+</record>
+
+
+</odoo>

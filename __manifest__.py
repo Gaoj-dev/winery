@@ -32,6 +32,8 @@
         'views/templates.xml',
         'views/grape_variety.xml',
         'views/menu.xml',
+        'views/winery_tank.xml',
+        'views/winery_tank_type.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
